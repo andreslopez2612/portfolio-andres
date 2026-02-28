@@ -1,0 +1,52 @@
+---
+import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Andres Lopez - Portfolio",
+  description = "System Engineer | DevOps | Cloud | Open Source | Tech Enthusiast",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <!-- Botón de tema fijo -->
+    <ThemeToggle />
+
+    <!-- Contenido principal -->
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<!-- Script de tema: se ejecuta antes del render para evitar flash -->
+<script is:inline>
+  (function () {
+    const stored = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    const isDark = stored === "dark" || (!stored && prefersDark);
+
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    }
+  })();
+</script>

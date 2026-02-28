@@ -1,0 +1,85 @@
+---
+// ThemeToggle.astro
+// Botón flotante para alternar entre modo oscuro y claro.
+// Usa localStorage para persistir la preferencia del usuario.
+---
+
+<button
+  id="theme-toggle"
+  aria-label="Cambiar tema"
+  title="Cambiar tema"
+  class="fixed bottom-6 right-6 z-50
+    w-12 h-12 rounded-full
+    flex items-center justify-center
+    bg-[var(--surface)] border border-[var(--border)]
+    text-[var(--text)]
+    shadow-lg cursor-pointer
+    transition-all duration-300 ease-in-out
+    hover:scale-110 hover:border-[var(--color-brand)]
+    hover:shadow-[0_0_16px_var(--color-brand)]
+    focus-visible:outline-2"
+>
+  <!-- Icono Sol (modo claro) -->
+  <svg
+    id="icon-sun"
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="hidden"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path
+      d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+    ></path>
+  </svg>
+
+  <!-- Icono Luna (modo oscuro) -->
+  <svg
+    id="icon-moon"
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<script>
+  const html = document.documentElement;
+  const btn = document.getElementById("theme-toggle") as HTMLButtonElement;
+  const iconSun = document.getElementById("icon-sun") as unknown as SVGElement;
+  const iconMoon = document.getElementById(
+    "icon-moon",
+  ) as unknown as SVGElement;
+
+  function applyTheme(isDark: boolean) {
+    html.classList.toggle("dark", isDark);
+    iconSun.classList.toggle("hidden", !isDark);
+    iconMoon.classList.toggle("hidden", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }
+
+  // Estado inicial
+  const stored = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(stored === "dark" || (!stored && prefersDark));
+
+  // Evento click
+  btn.addEventListener("click", () => {
+    applyTheme(!html.classList.contains("dark"));
+  });
+</script>

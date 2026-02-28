@@ -1,0 +1,99 @@
+---
+// Works.astro — Galería/proyectos con animación horizontal GSAP
+---
+
+<section id="works" class="section-padding overflow-hidden">
+  <div class="container-section">
+    <div class="works-header text-center mb-16">
+      <p class="text-[var(--color-brand)] text-sm font-semibold uppercase tracking-widest mb-3">
+        Proyectos
+      </p>
+      <h2 class="text-4xl sm:text-5xl font-black text-[var(--text)] leading-tight">
+        Lo que <span class="text-gradient">construyo</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {[
+        { num: '01', title: 'Proyecto Alpha', tag: 'Web App', color: 'var(--color-brand)' },
+        { num: '02', title: 'Proyecto Beta', tag: 'UI Design', color: 'var(--color-gold)' },
+        { num: '03', title: 'Proyecto Gamma', tag: 'Animation', color: 'var(--color-brand-light)' },
+        { num: '04', title: 'Proyecto Delta', tag: 'Frontend', color: 'var(--color-gold-light)' },
+      ].map((project) => (
+        <article
+          class="
+            work-card
+            group relative p-8 rounded-2xl
+            bg-[var(--surface)] border border-[var(--border)]
+            hover:border-[var(--color-brand)]
+            transition-all duration-300 cursor-pointer
+            overflow-hidden
+          "
+        >
+          <!-- Fondo decorativo hover -->
+          <div
+            class="
+              absolute inset-0 opacity-0 group-hover:opacity-100
+              transition-opacity duration-300
+              bg-[radial-gradient(circle_at_top_right,oklch(55%_0.22_25_/_0.08),transparent_60%)]
+            "
+          ></div>
+
+          <span class="text-5xl font-black text-[var(--border)] block mb-4 transition-colors group-hover:text-[var(--color-brand)]">
+            {project.num}
+          </span>
+
+          <span
+            class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3"
+            style={`background-color: oklch(55% 0.22 25 / 0.12); color: ${project.color};`}
+          >
+            {project.tag}
+          </span>
+
+          <h3 class="text-xl font-bold text-[var(--text)] group-hover:text-[var(--color-brand)] transition-colors">
+            {project.title}
+          </h3>
+
+          <div class="mt-6 flex items-center gap-2 text-[var(--color-brand)] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <span class="text-sm font-medium">Ver proyecto</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo(
+    '.works-header',
+    { opacity: 0, y: 40 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '#works', start: 'top 75%' },
+    }
+  );
+
+  gsap.fromTo(
+    '.work-card',
+    { opacity: 0, x: -40 },
+    {
+      opacity: 1,
+      x: 0,
+      duration: 0.6,
+      ease: 'power3.out',
+      stagger: 0.12,
+      scrollTrigger: { trigger: '#works', start: 'top 65%' },
+    }
+  );
+</script>

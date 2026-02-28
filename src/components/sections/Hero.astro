@@ -1,0 +1,125 @@
+---
+// Hero.astro — Sección principal con animación de entrada GSAP
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden section-padding"
+>
+  <!-- Fondo decorativo -->
+  <div
+    class="
+      absolute inset-0 -z-10
+      bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,oklch(55%_0.22_25_/_0.15),transparent)]
+    "
+  ></div>
+
+  <!-- Contenido -->
+  <div class="container-section text-center">
+    <p
+      id="hero-eyebrow"
+      class="text-[var(--color-brand)] text-sm font-semibold uppercase tracking-widest mb-4 opacity-0"
+    >
+      Welcome
+    </p>
+
+    <h1
+      id="hero-title"
+      class="text-5xl sm:text-7xl lg:text-8xl font-black leading-none mb-6 opacity-0"
+    >
+      <span class="text-gradient">Shout at</span><br />
+      <span class="text-[var(--text)]">the Moon</span>
+    </h1>
+
+    <p
+      id="hero-description"
+      class="text-[var(--text-muted)] text-lg sm:text-xl max-w-xl mx-auto mb-10 opacity-0"
+    >
+      Una single page creada con Astro, Tailwind v4 y GSAP para
+      practicar animaciones y composición visual.
+    </p>
+
+    <div id="hero-cta" class="flex flex-wrap gap-4 justify-center opacity-0">
+      <a
+        href="#about"
+        class="
+          px-8 py-3 rounded-full font-semibold text-sm
+          bg-[var(--color-brand)] text-white
+          hover:bg-[var(--color-brand-light)]
+          transition-colors duration-200
+        "
+      >
+        Explorar
+      </a>
+      <a
+        href="#contact"
+        class="
+          px-8 py-3 rounded-full font-semibold text-sm
+          border border-[var(--border)]
+          text-[var(--text)]
+          hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]
+          transition-colors duration-200
+        "
+      >
+        Contacto
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div
+    id="scroll-indicator"
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
+  >
+    <span class="text-[var(--text-muted)] text-xs uppercase tracking-widest">Scroll</span>
+    <div class="w-px h-12 bg-gradient-to-b from-[var(--color-brand)] to-transparent"></div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const tl = gsap.timeline({ delay: 0.2 });
+
+  tl.to('#hero-eyebrow', {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    ease: 'power3.out',
+    from: { y: 20 },
+  })
+    .fromTo(
+      '#hero-title',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+      '-=0.3'
+    )
+    .fromTo(
+      '#hero-description',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+      '-=0.4'
+    )
+    .fromTo(
+      '#hero-cta',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+      '-=0.3'
+    )
+    .fromTo(
+      '#scroll-indicator',
+      { opacity: 0 },
+      { opacity: 1, duration: 0.6, ease: 'power2.out' },
+      '-=0.1'
+    );
+
+  // Animación continua del scroll indicator
+  gsap.to('#scroll-indicator', {
+    y: 8,
+    duration: 1.4,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    delay: 1.5,
+  });
+</script>

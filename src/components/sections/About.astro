@@ -1,0 +1,111 @@
+---
+// About.astro — Sección con animaciones scroll-triggered mediante GSAP ScrollTrigger
+---
+
+<section id="about" class="section-padding">
+  <div class="container-section">
+    <!-- Encabezado -->
+    <div class="about-header text-center mb-16">
+      <p class="text-[var(--color-brand)] text-sm font-semibold uppercase tracking-widest mb-3">
+        Sobre el proyecto
+      </p>
+      <h2 class="text-4xl sm:text-5xl font-black text-[var(--text)] leading-tight">
+        Stack & <span class="text-gradient">Tecnologías</span>
+      </h2>
+    </div>
+
+    <!-- Cards de tecnologías -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        {
+          icon: '🚀',
+          name: 'Astro 5',
+          desc: 'Framework de componentes con islands architecture para máximo rendimiento.',
+        },
+        {
+          icon: '🎨',
+          name: 'Tailwind CSS v4',
+          desc: 'Estilos atómicos con configuración basada en CSS puro y design tokens.',
+        },
+        {
+          icon: '✨',
+          name: 'GSAP',
+          desc: 'Animaciones de alta performance con timeline, scroll-trigger y más.',
+        },
+        {
+          icon: '🌗',
+          name: 'Dark Mode',
+          desc: 'Modo oscuro y claro persistido en localStorage con transición suave.',
+        },
+        {
+          icon: '📱',
+          name: 'Responsive',
+          desc: 'Diseño adaptable a todos los tamaños de pantalla con grid y flexbox.',
+        },
+        {
+          icon: '⚡',
+          name: 'Performance',
+          desc: 'Cero JS por defecto, hidratación selectiva y assets optimizados.',
+        },
+      ].map((item) => (
+        <div
+          class="
+            about-card
+            p-6 rounded-2xl
+            bg-[var(--surface)] border border-[var(--border)]
+            hover:border-[var(--color-brand)] hover:shadow-[0_0_20px_oklch(55%_0.22_25_/_0.12)]
+            transition-all duration-300
+            group
+          "
+        >
+          <span class="text-3xl mb-4 block">{item.icon}</span>
+          <h3 class="text-lg font-bold text-[var(--text)] mb-2 group-hover:text-[var(--color-brand)] transition-colors">
+            {item.name}
+          </h3>
+          <p class="text-[var(--text-muted)] text-sm leading-relaxed">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animación del encabezado
+  gsap.fromTo(
+    '.about-header',
+    { opacity: 0, y: 40 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 75%',
+      },
+    }
+  );
+
+  // Animación escalonada de las cards
+  gsap.fromTo(
+    '.about-card',
+    { opacity: 0, y: 50, scale: 0.95 },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.5,
+      ease: 'power3.out',
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 65%',
+      },
+    }
+  );
+</script>
