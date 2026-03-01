@@ -1,0 +1,55 @@
+---
+// Greeting.astro — Animated greetings in multiple languages (Apple style)
+---
+
+<div
+  class="h-10 relative overflow-hidden flex items-center justify-center mb-2"
+  aria-live="polite"
+>
+  <span
+    id="greeting-text"
+    class="absolute text-5xl text-gradient uppercase tracking-widest text-[var(--color-brand)] font-semibold"
+  >
+    Hello
+  </span>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  const greetings = [
+    "Hello",       // Inglés
+    "Hola",        // Español
+    "Bonjour",     // Francés
+    "Ciao",        // Italiano
+    "Olá",         // Portugués
+    "Hallo",       // Alemán
+  ];
+
+  const el = document.getElementById("greeting-text")!;
+  let index = 0;
+
+  function cycleGreeting() {
+    index = (index + 1) % greetings.length;
+
+    gsap.to(el, {
+      opacity: 0,
+      y: -14,
+      duration: 0.3,
+      ease: "power2.in",
+      onComplete: () => {
+        el.textContent = greetings[index];
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" },
+        );
+      },
+    });
+  }
+
+  // Starts cycling after the hero entrance animation finishes
+  setTimeout(() => {
+    setInterval(cycleGreeting, 1800);
+  }, 2500);
+</script>

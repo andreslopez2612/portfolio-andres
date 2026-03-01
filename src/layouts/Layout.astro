@@ -14,7 +14,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,17 +26,17 @@ const {
   </head>
 
   <body>
-    <!-- Botón de tema fijo -->
+    <!-- Fixed theme button -->
     <ThemeToggle />
 
-    <!-- Contenido principal -->
+    <!-- Main content -->
     <main>
       <slot />
     </main>
   </body>
 </html>
 
-<!-- Script de tema: se ejecuta antes del render para evitar flash -->
+<!-- Theme script: runs before render to avoid flash -->
 <script is:inline>
   (function () {
     const stored = localStorage.getItem("theme");
