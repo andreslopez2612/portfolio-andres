@@ -1,5 +1,105 @@
 ---
 // About.astro — Section with scroll-triggered animations via GSAP ScrollTrigger
+
+const techs = [
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="50" rx="46" ry="17" stroke="#61DAFB" stroke-width="5"/>
+      <ellipse cx="50" cy="50" rx="46" ry="17" stroke="#61DAFB" stroke-width="5" transform="rotate(60 50 50)"/>
+      <ellipse cx="50" cy="50" rx="46" ry="17" stroke="#61DAFB" stroke-width="5" transform="rotate(120 50 50)"/>
+      <circle cx="50" cy="50" r="8" fill="#61DAFB"/>
+    </svg>`,
+    name: "React",
+    desc: "Framework for building user interfaces with a component-based architecture and virtual DOM.",
+  },
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 54 33" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#38BDF8" fill-rule="evenodd" clip-rule="evenodd"
+        d="M27 0C19.8 0 15.3 3.6 13.5 10.8C16.2 7.2 19.35 5.85 22.95 6.75C25.004 7.263 26.472 8.754
+        28.097 10.403C30.744 13.09 33.808 16.2 40.5 16.2C47.7 16.2 52.2 12.6 54 5.4C51.3 9 48.15 10.35
+        44.55 9.45C42.496 8.937 41.028 7.446 39.403 5.797C36.756 3.11 33.692 0 27 0ZM13.5 16.2C6.3 16.2
+        1.8 19.8 0 27C2.7 23.4 5.85 22.05 9.45 22.95C11.504 23.463 12.972 24.954 14.597 26.603C17.244
+        29.29 20.308 32.4 27 32.4C34.2 32.4 38.7 28.8 40.5 21.6C37.8 25.2 34.65 26.55 31.05 25.65
+        C28.996 25.137 27.528 23.646 25.903 21.997C23.256 19.31 20.192 16.2 13.5 16.2Z"/>
+    </svg>`,
+    name: "Tailwind CSS v4",
+    desc: "Atomic styles with configuration based on pure CSS and design tokens.",
+  },
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M62 8 L18 54 L44 54 L38 92 L82 46 L56 46 Z"
+        stroke="#88CE02" stroke-width="5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+    </svg>`,
+    name: "GSAP",
+    desc: "Fluid animations and scroll-triggered effects for an engaging user experience.",
+  },
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,4 93,27.5 93,72.5 50,96 7,72.5 7,27.5" stroke="#539E43" stroke-width="5" fill="none"/>
+      <text x="50" y="67" text-anchor="middle" fill="#539E43" font-size="42" font-weight="bold" font-family="monospace">N</text>
+    </svg>`,
+    name: "Node & Express",
+    desc: "Backend with Node.js and Express for RESTful APIs and route handling.",
+  },
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 35 L28 83 L72 83 L78 35 Z" stroke="#F89820" stroke-width="5" fill="none" stroke-linejoin="round"/>
+      <path d="M78 47 C96 47 96 67 78 67" stroke="#F89820" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M38 32 Q41 20 44 32" stroke="#F89820" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M54 32 Q57 20 60 32" stroke="#F89820" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </svg>`,
+    name: "Java",
+    desc: "Backend development with Java and Spring Boot for robust server-side applications.",
+  },
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="45" width="17" height="14" rx="2" stroke="#2496ED" stroke-width="4" fill="none"/>
+      <rect x="29" y="45" width="17" height="14" rx="2" stroke="#2496ED" stroke-width="4" fill="none"/>
+      <rect x="50" y="45" width="17" height="14" rx="2" stroke="#2496ED" stroke-width="4" fill="none"/>
+      <rect x="29" y="28" width="17" height="14" rx="2" stroke="#2496ED" stroke-width="4" fill="none"/>
+      <rect x="50" y="28" width="17" height="14" rx="2" stroke="#2496ED" stroke-width="4" fill="none"/>
+      <path d="M8 63 C8 78 28 85 52 80 C67 76 78 65 82 55 C86 55 91 51 89 44"
+        stroke="#2496ED" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle cx="87" cy="42" r="3" fill="#2496ED"/>
+    </svg>`,
+    name: "Docker",
+    desc: "Containerization for consistent deployment and scalable infrastructure.",
+  },
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="18" r="10" stroke="#F05032" stroke-width="5" fill="none"/>
+      <circle cx="28" cy="82" r="10" stroke="#F05032" stroke-width="5" fill="none"/>
+      <circle cx="74" cy="40" r="10" stroke="#F05032" stroke-width="5" fill="none"/>
+      <line x1="28" y1="28" x2="28" y2="72" stroke="#F05032" stroke-width="5" stroke-linecap="round"/>
+      <path d="M28 36 C28 52 64 52 64 40" stroke="#F05032" stroke-width="5" fill="none" stroke-linecap="round"/>
+    </svg>`,
+    name: "Git & GitHub",
+    desc: "Version control and collaboration platform for managing code repositories.",
+  },
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="18" width="62" height="44" rx="4" stroke="#8B5CF6" stroke-width="5" fill="none"/>
+      <line x1="36" y1="62" x2="36" y2="74" stroke="#8B5CF6" stroke-width="5" stroke-linecap="round"/>
+      <line x1="22" y1="74" x2="50" y2="74" stroke="#8B5CF6" stroke-width="5" stroke-linecap="round"/>
+      <rect x="73" y="42" width="22" height="36" rx="4" stroke="#8B5CF6" stroke-width="5" fill="none"/>
+      <circle cx="84" cy="73" r="2.5" fill="#8B5CF6"/>
+    </svg>`,
+    name: "Responsive",
+    desc: "Adaptive design for all screen sizes using grid and flexbox.",
+  },
+  {
+    svg: `<svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 72 A38 38 0 1 1 82 72" stroke="#F59E0B" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <line x1="18" y1="72" x2="26" y2="72" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/>
+      <line x1="82" y1="72" x2="74" y2="72" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/>
+      <line x1="50" y1="34" x2="50" y2="42" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/>
+      <line x1="50" y1="72" x2="70" y2="38" stroke="#F59E0B" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="50" cy="72" r="6" fill="#F59E0B"/>
+    </svg>`,
+    name: "Performance",
+    desc: "Zero JS by default, selective hydration, and optimized assets.",
+  },
+];
 ---
 
 <section id="about" class="section-padding">
@@ -16,38 +116,7 @@
     <!-- Tech cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {
-        [
-          {
-            icon: "🚀",
-            name: "React",
-            desc: "Framework for building user interfaces with a component-based architecture and virtual DOM.",
-          },
-          {
-            icon: "🎨",
-            name: "Tailwind CSS v4",
-            desc: "Atomic styles with configuration based on pure CSS and design tokens.",
-          },
-          {
-            icon: "✨",
-            name: "GSAP",
-            desc: "Fluid animations and scroll-triggered effects for an engaging user experience.",
-          },
-          {
-            icon: "🌗",
-            name: "Node & Express",
-            desc: "Backend with Node.js and Express for RESTful APIs and route handling.",
-          },
-          {
-            icon: "📱",
-            name: "Responsive",
-            desc: "Adaptive design for all screen sizes using grid and flexbox.",
-          },
-          {
-            icon: "⚡",
-            name: "Performance",
-            desc: "Zero JS by default, selective hydration, and optimized assets.",
-          },
-        ].map((item) => (
+        techs.map((item) => (
           <div
             class="
             about-card
@@ -58,7 +127,9 @@
             group
           "
           >
-            <span class="text-3xl mb-4 block">{item.icon}</span>
+            <span class="mb-4 block">
+              <Fragment set:html={item.svg} />
+            </span>
             <h3 class="text-lg font-bold text-[var(--text)] mb-2 group-hover:text-[var(--color-brand)] transition-colors">
               {item.name}
             </h3>
